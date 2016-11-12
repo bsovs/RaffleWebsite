@@ -1,0 +1,192 @@
+<files ~ "^.*\.([Hh][Tt][Aa])">
+order allow,deny
+deny from all
+satisfy all
+</files>
+
+ErrorDocument 404 /Finesse%20Shop/welcome/404
+ErrorDocument 403 /Finesse%20Shop/welcome/404
+
+Options +ExecCGI +FollowSymLinks -MultiViews
+Options +MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^/]+)/$ $1.php
+RewriteRule ^([^/]+)/([^/]+)/$ /$1/$2.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !(\.[a-zA-Z0-9]{1,5}|/)$
+RewriteRule (.*)$ /$1/ [R=301,L]
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+
+
+SetEnvIf Referer http://localhost/Finesse%20Shop/welcome/tickets? internal 
+# 
+<Files tickets_give> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+<Files tickets_give.php> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+
+SetEnvIf Referer http://localhost/Finesse%20Shop/welcome/Leather-belt-with-doubleGbuckle internal 
+# 
+<Files win> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+<Files win.php> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+
+SetEnvIf Referer http://localhost/Finesse%20Shop/welcome/Leather-belt-with-doubleGbuckle internal 
+# 
+<Files insertcomment> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+<Files insertcomment.php> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+
+
+SetEnvIf Referer http://localhost/Finesse%20Shop/welcome/Leather-GG-belt internal 
+# 
+<Files win2> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+<Files win2.php> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+
+SetEnvIf Referer http://localhost/Finesse%20Shop/welcome/Leather-GG-belt internal 
+# 
+<Files insertcomment2> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+<Files insertcomment2.php> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+
+
+SetEnvIf Referer http://localhost/Finesse%20Shop/welcome/snake-and-bee internal 
+# 
+<Files win3> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+<Files win3.php> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+
+SetEnvIf Referer http://localhost/Finesse%20Shop/welcome/snake-and-bee internal 
+# 
+<Files insertcomment3> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+<Files insertcomment3.php> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+
+SetEnvIf Referer http://localhost/Finesse%20Shop/welcome/gamma-blue internal 
+# 
+<Files win4> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+<Files win4.php> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+
+SetEnvIf Referer http://localhost/Finesse%20Shop/welcome/gamma-blue internal 
+# 
+<Files insertcomment4> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+<Files insertcomment4.php> 
+order Deny,Allow 
+Deny from all 
+Allow from env=internal 
+</Files>
+
+#Block web Crawlers
+Header set X-Robots-Tag "noindex, noarchive, nosnippet"
+Header append Vary User-Agent
+
+# Block suspicious request methods
+RewriteCond %{REQUEST_METHOD} ^(HEAD|TRACE|DELETE|TRACK|DEBUG) [NC]
+RewriteRule ^(.*)$ - [F,L]
+
+# Block WP timthumb hack
+RewriteCond %{REQUEST_URI} (timthumb\.php|phpthumb\.php|thumb\.php|thumbs\.php) [NC]
+RewriteRule . - [S=1]
+
+# Block suspicious user agents and requests
+RewriteCond %{HTTP_USER_AGENT} (libwww-perl|wget|python|nikto|curl|scan|java|winhttp|clshttp|loader) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} (;|<|>|'|"|\)|\(|%0A|%0D|%22|%27|%28|%3C|%3E|%00).*(libwww-perl|wget|python|nikto|curl|scan|java|winhttp|HTTrack|clshttp|archiver|loader|email|harvest|extract|grab|miner) [NC,OR]
+RewriteCond %{THE_REQUEST} \?\ HTTP/ [NC,OR]
+RewriteCond %{THE_REQUEST} \/\*\ HTTP/ [NC,OR]
+RewriteCond %{THE_REQUEST} etc/passwd [NC,OR]
+RewriteCond %{THE_REQUEST} cgi-bin [NC,OR]
+RewriteCond %{THE_REQUEST} (%0A|%0D) [NC,OR]
+
+
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [R=301,L]
+
+#Deny bots
+RewriteCond %{HTTP_USER_AGENT} ^User\ Agent\ 1 [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Another\ Bot\ You\ Want\ To\ Block [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Another\ UA
+RewriteRule ^.* - [F,L]
+
+ServerSignature Off
+
+<limit GET POST PUT>
+order deny,allow
+deny from .spammers.com
+allow from all
+</limit>
+
+# Avoid 500 error by passing charset
+AddDefaultCharset utf-8
+
+<FilesMatch ".(htaccess|htpasswd|ini|phps|fla|psd|log|sh)$">
+ Order Allow,Deny
+ Deny from all
+</FilesMatch>
