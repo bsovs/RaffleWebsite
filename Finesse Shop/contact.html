@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<title>FinesseShop</title>
+<link rel="stylesheet" href="finessecss.css">
+
+
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "users_database";
+session_start();
+$pass = $_SESSION['pass'];
+$name = $_SESSION['name'];
+if (!(isset($_SESSION['pass']) && $_SESSION['name'] != '')) {
+Header("Location:welcome_get.php");
+}
+
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+mysqli_close($conn);
+
+?>
+
+
+</head>
+
+
+<div id="body">
+<body bgcolor="#F9F9F9" background="background4.jpg">
+<div id="bg2">
+<img src="background2.jpg" id="bg2" width="100%" height="500px">
+</div>
+
+  
+ 
+ 
+ 
+ 
+ <div class="footer" id="copyright">
+<p><br>All rights reserved - Copyright © finesseshop.ca - Created by @Brandon.Sovran - <a href="about.php" title="About FinesseShop">About FinesseShop</a> - <a href="contact.php" title="Contact us">Contact us</a> <p>
+</div>
+ 
+ <div id="h1"><a href="Home.php" title="Home">
+  <div class="title"><h1><span id="the">The </span><span id="f">
+F</span>  <span id="title"> inesse Shop</span></h1></div>
+</a></div>
+
+<div id="logout">
+<form action="Logout.php" method="get">
+<input class="btn" type="Submit" value="Logout">
+</form>
+</div>
+
+<div id="name">
+<?php
+echo'Welcome!' .'<br />'  .$name ;
+ ?>
+</div>
+
+
+
+
+</body>
+</div>
+</html>
